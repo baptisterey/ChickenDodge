@@ -1,0 +1,586 @@
+{
+  "Layers": {
+    "components": {
+      "Position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "children": {
+      "0_Background": {
+        "components": {
+          "Position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "Layer": {},
+          "BackgroundLoader": {
+            "description": "layers/background.txt",
+            "spriteSheet": "ZeldaSprites.SpriteSheet",
+            "scale": 16,
+            "entryMap": {
+              "T": {
+                "spriteName": "T1",
+                "isAnimated": false,
+                "frameSkip": 1
+              },
+              "F": {
+                "spriteName": "F",
+                "isAnimated": true,
+                "frameSkip": 8
+              },
+              "G": {
+                "spriteName": "P1",
+                "isAnimated": false,
+                "frameSkip": 1
+              }
+            }
+          }
+        }
+      },
+      "1_Playground": {
+        "components": {
+          "Position": {
+            "x": 0,
+            "y": 0,
+            "z": 100
+          },
+          "Layer": {},
+          "BackgroundLoader": {
+            "description": "layers/playground.txt",
+            "spriteSheet": "ZeldaSprites.SpriteSheet",
+            "scale": 16,
+            "entryMap": {
+              "T": {
+                "spriteName": "T1",
+                "isAnimated": false,
+                "frameSkip": 1
+              },
+              "G": {
+                "spriteName": "P1",
+                "isAnimated": false,
+                "frameSkip": 1
+              },
+              "\\": {
+                "spriteName": "FE2",
+                "isAnimated": false,
+                "frameSkip": 1
+              },
+              "-": {
+                "spriteName": "FE1",
+                "isAnimated": false,
+                "frameSkip": 1
+              },
+              "|": {
+                "spriteName": "FE3",
+                "isAnimated": false,
+                "frameSkip": 1
+              }
+            }
+          }
+        }
+      },
+      "2_Players": {
+        "components": {
+          "Position": {
+            "x": 0,
+            "y": 0,
+            "z": 200
+          },
+          "Layer": {}
+        },
+        "children": {
+          "Green": {
+            "components": {
+              "Position": {
+                "x": 124,
+                "y": 70,
+                "z": 0
+              },
+              "Input": {
+                "symbols": {
+                  "up": "KeyW",
+                  "down": "KeyS",
+                  "left": "KeyA",
+                  "right": "KeyD",
+                  "attack": "Space"
+                }
+              },
+              "Player": {
+                "name": "Joueur Vert",
+                "input": "Green.Input",
+                "prefix": "G",
+                "score": "GreenScore.Score",
+                "life": "GreenScore.Life",
+                "gameArea": {
+                  "x": 105,
+                  "y": 20,
+                  "w": 148,
+                  "h": 108
+                },
+                "invulnerableDuration": 2000,
+                "hurtDuration": 200,
+                "hurtMotion": 0.5,
+                "onHurtEnable": [
+                  "Deformation.DeformationCompositor"
+                ]
+              },
+              "Sprite": {
+                "spriteSheet": "ZeldaSprites.SpriteSheet"
+              },
+              "Collider": {
+                "flag": 1,
+                "mask": 6,
+                "size": {
+                  "w": 16,
+                  "h": 24
+                },
+                "handler": "Player"
+              }
+            }
+          },
+          "Red": {
+            "components": {
+              "Position": {
+                "x": 240,
+                "y": 70,
+                "z": 0
+              },
+              "Input": {
+                "symbols": {
+                  "up": "ArrowUp",
+                  "down": "ArrowDown",
+                  "left": "ArrowLeft",
+                  "right": "ArrowRight",
+                  "attack": "Enter"
+                }
+              },
+              "Player": {
+                "name": "Joueur Rouge",
+                "input": "Red.Input",
+                "prefix": "R",
+                "score": "RedScore.Score",
+                "life": "RedScore.Life",
+                "gameArea": {
+                  "x": 105,
+                  "y": 20,
+                  "w": 148,
+                  "h": 108
+                },
+                "invulnerableDuration": 2000,
+                "hurtDuration": 200,
+                "hurtMotion": 0.5,
+                "onHurtEnable": [
+                  "Deformation.DeformationCompositor"
+                ]
+              },
+              "Sprite": {
+                "spriteSheet": "ZeldaSprites.SpriteSheet"
+              },
+              "Collider": {
+                "flag": 1,
+                "mask": 6,
+                "size": {
+                  "w": 16,
+                  "h": 24
+                },
+                "handler": "Player"
+              }
+            }
+          }
+        }
+      },
+      "3_Chicken": {
+        "components": {
+          "Position": {
+            "x": 0,
+            "y": 0,
+            "z": 300
+          },
+          "Layer": {},
+          "ChickenSpawner": {
+            "spriteSheet": "ZeldaSprites.SpriteSheet",
+            "sourceArea": {
+              "x": -25,
+              "y": -70,
+              "w": 400,
+              "h": 300
+            },
+            "targetArea": {
+              "x": 105,
+              "y": 20,
+              "w": 160,
+              "h": 120
+            },
+            "spawnDelay": 60,
+            "spawnWaitFactor": 0.98,
+            "chickenTemplate": {
+              "components": {
+                "Chicken": {
+                  "attack": 0.5,
+                  "heartAttackChance": 0.2,
+                  "heartTemplate": {
+                    "components": {
+                      "Heart": {
+                        "heal": 1,
+                        "lifetime": 3000
+                      },
+                      "Position": {},
+                      "Sprite": {
+                        "spriteName": "RecoveryHeart",
+                        "isAnimated": false,
+                        "frameSkip": 1
+                      },
+                      "Collider": {
+                        "flag": 4,
+                        "mask": 0,
+                        "size": {
+                          "w": 7,
+                          "h": 7
+                        }
+                      }
+                    }
+                  },
+                  "rupeeTemplate": {
+                    "components": {
+                      "Rupee": {
+                        "values": {
+                          "G": 1,
+                          "B": 5,
+                          "R": 20
+                        },
+                        "lifetime": 3000
+                      },
+                      "Position": {},
+                      "Sprite": {
+                        "isAnimated": true,
+                        "animWait": 45,
+                        "frameSkip": 2
+                      },
+                      "Collider": {
+                        "flag": 4,
+                        "mask": 0,
+                        "size": {
+                          "w": 8,
+                          "h": 14
+                        }
+                      }
+                    }
+                  }
+                },
+                "Position": {},
+                "Sprite": {
+                  "isAnimated": true
+                },
+                "Collider": {
+                  "flag": 2,
+                  "mask": 1,
+                  "size": {
+                    "w": 15,
+                    "h": 17
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "4_HUD": {
+        "components": {
+          "Position": {
+            "x": 0,
+            "y": -70,
+            "z": 400
+          },
+          "Layer": {}
+        },
+        "children": {
+          "GreenScore": {
+            "components": {
+              "Position": {
+                "x": 48,
+                "y": 32,
+                "z": 0
+              },
+              "Score": {
+                "scoreSprite": "GreenScoreSprite.TextSprite"
+              },
+              "Life": {
+                "max": 3,
+                "default": 3,
+                "lifeSprite": "GreenLifeSprite.TextSprite",
+                "sprites": ["HeartEmpty", "HeartHalf", "HeartFull"]
+              }
+            },
+            "children": {
+              "Face": {
+                "components": {
+                  "Position": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "Sprite": {
+                    "spriteSheet": "ZeldaSprites.SpriteSheet",
+                    "spriteName": "GI",
+                    "isAnimated": false,
+                    "frameSkip": 2,
+                    "animWait": 0
+                  }
+                }
+              },
+              "Rupee": {
+                "components": {
+                  "Position": {
+                    "x": 20,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "Sprite": {
+                    "spriteSheet": "ZeldaSprites.SpriteSheet",
+                    "spriteName": "G",
+                    "isAnimated": true,
+                    "frameSkip": 2,
+                    "animWait": 90
+                  }
+                }
+              },
+              "GreenScoreSprite": {
+                "components": {
+                  "Position": {
+                    "x": 30,
+                    "y": -2,
+                    "z": 0
+                  },
+                  "TextSprite": {
+                    "spriteSheet": "ZeldaSprites.SpriteSheet",
+                    "align": "left"
+                  }
+                }
+              },
+              "GreenLifeSprite": {
+                "components": {
+                  "Position": {
+                    "x": 0,
+                    "y": 10,
+                    "z": 0
+                  },
+                  "TextSprite": {
+                    "spriteSheet": "ZeldaSprites.SpriteSheet",
+                    "align": "left"
+                  }
+                }
+              }
+            }
+          },
+          "RedScore": {
+            "components": {
+              "Position": {
+                "x": 332,
+                "y": 32,
+                "z": 0
+              },
+              "Score": {
+                "scoreSprite": "RedScoreSprite.TextSprite"
+              },
+              "Life": {
+                "max": 3,
+                "default": 3,
+                "lifeSprite": "RedLifeSprite.TextSprite",
+                "sprites": ["HeartEmpty", "HeartHalf", "HeartFull"]
+              }
+            },
+            "children": {
+              "Face": {
+                "components": {
+                  "Position": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "Sprite": {
+                    "spriteSheet": "ZeldaSprites.SpriteSheet",
+                    "spriteName": "RI",
+                    "isAnimated": false,
+                    "frameSkip": 2,
+                    "animWait": 0
+                  }
+                }
+              },
+              "Rupee": {
+                "components": {
+                  "Position": {
+                    "x": -12,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "Sprite": {
+                    "spriteSheet": "ZeldaSprites.SpriteSheet",
+                    "spriteName": "G",
+                    "isAnimated": true,
+                    "frameSkip": 2,
+                    "animWait": 90
+                  }
+                }
+              },
+              "RedScoreSprite": {
+                "components": {
+                  "Position": {
+                    "x": -22,
+                    "y": -2,
+                    "z": 0
+                  },
+                  "TextSprite": {
+                    "spriteSheet": "ZeldaSprites.SpriteSheet",
+                    "align": "right"
+                  }
+                }
+              },
+              "RedLifeSprite": {
+                "components": {
+                  "Position": {
+                    "x": 0,
+                    "y": 10,
+                    "z": 0
+                  },
+                  "TextSprite": {
+                    "spriteSheet": "ZeldaSprites.SpriteSheet",
+                    "align": "right"
+                  }
+                }
+              }
+            }
+          },
+          "Timer": {
+            "components": {
+              "Position": {
+                "x": 180,
+                "y": 30,
+                "z": 0
+              },
+              "Timer": {},
+              "TextSprite": {
+                "spriteSheet": "ZeldaSprites.SpriteSheet",
+                "align": "left"
+              }
+            }
+          },
+          "Countdown": {
+            "components": {
+              "Position": {
+                "x": 190,
+                "y": 140,
+                "z": 0
+              },
+              "Countdown": {
+                "sprites": [
+                  "sprites/countdown_step1.png",
+                  "sprites/countdown_step2.png",
+                  "sprites/countdown_step3.png"
+                ],
+                "spriteTemplate": {
+                  "components": {
+                    "Position": {},
+                    "RawSprite": {
+                      "vertexShader": "shaders/sprite.vert",
+                      "fragmentShader": "shaders/sprite.frag",
+                      "scale": 0.4
+                    }
+                  }
+                },
+                "delay": 1000,
+                "handler": "Enabler.onEvent"
+              },
+              "Enabler": {
+                "onStart": {
+                  "Green.Player": false,
+                  "Red.Player": false,
+                  "3_Chicken.ChickenSpawner": false,
+                  "Timer.Timer": false,
+                  "Deformation.DeformationCompositor": false
+                },
+                "onEvent": {
+                  "Green.Player": true,
+                  "Red.Player": true,
+                  "3_Chicken.ChickenSpawner": true,
+                  "Timer.Timer": true
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "Camera": {
+    "components": {
+      "Position": {
+        "x": 200,
+        "y": -70,
+        "z": -500
+      },
+      "Camera": {
+        "color": {
+          "r": 0.28,
+          "g": 0.60,
+          "b": 0.28,
+          "a": 1.0
+        },
+        "height": 128,
+        "near": 0,
+        "far": 1000,
+        "compositors": [
+          "Deformation.DeformationCompositor",
+          "Camera.RenderCompositor"
+        ]
+      },
+      "RenderCompositor": {
+        "vertexShader": "shaders/renderquad.vert",
+        "fragmentShader": "shaders/renderquad.frag"
+      }
+    },
+    "children": {
+      "Deformation": {
+        "components": {
+          "DeformationCompositor": {
+            "speed": 0.333,
+            "scale": 0.1,
+            "source": "sprites/deformation.png",
+            "intensity": "sprites/intensity.png",
+            "vertexShader": "shaders/deformation.vert",
+            "fragmentShader": "shaders/deformation.frag"
+          }
+        }
+      }
+    }
+  },
+  "ZeldaSprites": {
+    "components": {
+      "SpriteSheet": {
+        "description": "spritesheets/zeldaSprites.json",
+        "texture": "spritesheets/zeldaSprites.png",
+        "vertexShader": "shaders/sprite.vert",
+        "fragmentShader": "shaders/sprite.frag"
+      }
+    }
+  },
+  "DrawCalls": {
+    "components": {
+      "DebugDrawCalls": {
+        "field": "drawCalls"
+      }
+    }
+  },
+  "Referee": {
+    "components": {
+      "Referee": {
+        "players": [
+          "Green.Player",
+          "Red.Player"
+        ]
+      }
+    }
+  }
+}

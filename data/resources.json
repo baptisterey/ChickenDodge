@@ -1,0 +1,29 @@
+{
+  "text": {
+    "text/plain": [
+      "equipe.txt",
+      "layers/background.txt",
+      "layers/playground.txt",
+      "scenes/play.json",
+      "spritesheets/zeldaSprites.json"
+    ],
+    "x-shader/x-vertex": [
+      "shaders/deformation.vert",
+      "shaders/renderquad.vert",
+      "shaders/sprite.vert"
+    ],
+    "x-shader/x-fragment": [
+      "shaders/deformation.frag",
+      "shaders/renderquad.frag",
+      "shaders/sprite.frag"
+    ]
+  },
+  "images": [
+    "sprites/countdown_step1.png",
+    "sprites/countdown_step2.png",
+    "sprites/countdown_step3.png",
+    "sprites/deformation.png",
+    "sprites/intensity.png",
+    "spritesheets/zeldaSprites.png"
+  ]
+}

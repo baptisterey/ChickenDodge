@@ -1,0 +1,10 @@
+{
+  "devDependencies": {
+    "typescript": "^3.6.2"
+  },
+  "dependencies": {
+    "@types/gl-matrix": "^2.4.5",
+    "@types/text-encoding": "0.0.35",
+    "http-server": "^0.11.1"
+  }
+}

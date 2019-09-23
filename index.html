@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Chicken Dodge</title>
+  <link rel="stylesheet" type="text/css" href="css/chickendodge.css" />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.js"></script>
+  <script>
+    require.config({
+      paths: {
+        'gl-matrix': 'https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.4.1/gl-matrix'
+      }
+    });
+  </script>
+  <script src="dist/merged.js"></script>
+</head>
+
+<body>
+  <p>
+    <button onclick="requestFullScreen();">Plein écran</button>
+    <div>
+      Appels de rendu: <span id="drawCalls"></span>
+    </div>
+  </p>
+  <div id="playarea">
+    <div id="instructions">
+      <div>
+        <p>Joueur Vert</p>
+        <div>WASD/ZQSD - Se déplacer</div>
+        <div>Espace - Attaquer</div>
+      </div>
+      <div>
+        <p>Joueur Rouge</p>
+        <div>Flèches - Se déplacer</div>
+        <div>Retour - Attaquer</div>
+      </div>
+    </div>
+    <canvas id="canvas" width="768" height="576"></canvas>
+  </div>
+
+  <script>
+    let requestFullScreen;
+
+    require(["chickendodge", "graphicsAPI"], (game, GraphicsAPI) => {
+      requestFullScreen = GraphicsAPI.requestFullScreen;
+      game.preload()
+        .then(() => game.init());
+    });
+  </script>
+
+</body>
+
+</html>
