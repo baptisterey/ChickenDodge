@@ -3,6 +3,7 @@ import {IDisplayComponent} from "../systems/displaySystem";
 import {Component} from "./component";
 import {SpriteComponent} from "./spriteComponent";
 import * as GraphicsAPI from "../graphicsAPI";
+import {TextureComponent} from "./textureComponent";
 
 let GL: WebGLRenderingContext;
 
@@ -76,28 +77,24 @@ export class LayerComponent extends Component<object> implements IDisplayCompone
             return; // Si on a aucune spritesheet pour afficher les sprites, ne rien faire
         }
 
-        let vertices: any[] = [];
-        let indexes: any[] = [];
+        const indices = new Uint16Array(6 * layerSprites.length);
+        const vertices = new Float32Array(4 * layerSprites.length * TextureComponent.vertexSize);
 
         let i = 0;
-        for (const sprite of layerSprites) { // On parcour l'ensemble des sprites du layer pour recolter leurs vertices & indices
+        for (const sprite of layerSprites) { // On parcourt l'ensemble des sprites du layer pour recolter leurs vertices & indices
             const newStartIndex = i * 4;
-            vertices = vertices.concat(Array.prototype.slice.call(sprite.getVertices()));
-            indexes = indexes.concat([newStartIndex, newStartIndex + 1, newStartIndex + 2, newStartIndex + 2, newStartIndex + 3, newStartIndex]);
+            vertices.set(sprite.getVertices(), i * 4 * TextureComponent.vertexSize);
+            indices.set([newStartIndex, newStartIndex + 1, newStartIndex + 2, newStartIndex + 2, newStartIndex + 3, newStartIndex], i * 6);
             i++;
         }
 
         this.indexBuffer = GL.createBuffer()!;
         GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
-
-        const indices = new Uint16Array(indexes);
         GL.bufferData(GL.ELEMENT_ARRAY_BUFFER, indices, GL.DYNAMIC_DRAW);
 
         this.vertexBuffer = GL.createBuffer()!;
         GL.bindBuffer(GL.ARRAY_BUFFER, this.vertexBuffer);
-
-        const verts = new Float32Array(vertices);
-        GL.bufferData(GL.ARRAY_BUFFER, verts, GL.DYNAMIC_DRAW);
+        GL.bufferData(GL.ARRAY_BUFFER, vertices, GL.DYNAMIC_DRAW);
 
         spriteSheet.bind();
         GL.drawElements(GL.TRIANGLES, 6 * layerSprites.length, GL.UNSIGNED_SHORT, 0);

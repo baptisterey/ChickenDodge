@@ -1290,7 +1290,7 @@ define("components/inputComponent", ["require", "exports", "components/component
         // Rien
     }
 });
-define("components/layerComponent", ["require", "exports", "components/component", "components/spriteComponent", "graphicsAPI"], function (require, exports, component_15, spriteComponent_1, GraphicsAPI) {
+define("components/layerComponent", ["require", "exports", "components/component", "components/spriteComponent", "graphicsAPI", "components/textureComponent"], function (require, exports, component_15, spriteComponent_1, GraphicsAPI, textureComponent_3) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     let GL;
@@ -1348,23 +1348,21 @@ define("components/layerComponent", ["require", "exports", "components/component
             if (spriteSheet == null) {
                 return; // Si on a aucune spritesheet pour afficher les sprites, ne rien faire
             }
-            let vertices = [];
-            let indexes = [];
+            const indices = new Uint16Array(6 * layerSprites.length);
+            const vertices = new Float32Array(4 * layerSprites.length * textureComponent_3.TextureComponent.vertexSize);
             let i = 0;
-            for (const sprite of layerSprites) { // On parcour l'ensemble des sprites du layer pour recolter leurs vertices & indices
+            for (const sprite of layerSprites) { // On parcourt l'ensemble des sprites du layer pour recolter leurs vertices & indices
                 const newStartIndex = i * 4;
-                vertices = vertices.concat(Array.prototype.slice.call(sprite.getVertices()));
-                indexes = indexes.concat([newStartIndex, newStartIndex + 1, newStartIndex + 2, newStartIndex + 2, newStartIndex + 3, newStartIndex]);
+                vertices.set(sprite.getVertices(), i * 4 * textureComponent_3.TextureComponent.vertexSize);
+                indices.set([newStartIndex, newStartIndex + 1, newStartIndex + 2, newStartIndex + 2, newStartIndex + 3, newStartIndex], i * 6);
                 i++;
             }
             this.indexBuffer = GL.createBuffer();
             GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
-            const indices = new Uint16Array(indexes);
             GL.bufferData(GL.ELEMENT_ARRAY_BUFFER, indices, GL.DYNAMIC_DRAW);
             this.vertexBuffer = GL.createBuffer();
             GL.bindBuffer(GL.ARRAY_BUFFER, this.vertexBuffer);
-            const verts = new Float32Array(vertices);
-            GL.bufferData(GL.ARRAY_BUFFER, verts, GL.DYNAMIC_DRAW);
+            GL.bufferData(GL.ARRAY_BUFFER, vertices, GL.DYNAMIC_DRAW);
             spriteSheet.bind();
             GL.drawElements(GL.TRIANGLES, 6 * layerSprites.length, GL.UNSIGNED_SHORT, 0);
             spriteSheet.unbind();
@@ -1804,11 +1802,11 @@ define("components/playerComponent", ["require", "exports", "gl-matrix", "eventT
     }
     exports.PlayerComponent = PlayerComponent;
 });
-define("components/rawSpriteComponent", ["require", "exports", "graphicsAPI", "components/textureComponent"], function (require, exports, GraphicsAPI, textureComponent_3) {
+define("components/rawSpriteComponent", ["require", "exports", "graphicsAPI", "components/textureComponent"], function (require, exports, GraphicsAPI, textureComponent_4) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     let GL;
-    class RawSpriteComponent extends textureComponent_3.TextureComponent {
+    class RawSpriteComponent extends textureComponent_4.TextureComponent {
         // ## Méthode *create*
         create(descr) {
             GL = GraphicsAPI.context;
@@ -1818,7 +1816,7 @@ define("components/rawSpriteComponent", ["require", "exports", "graphicsAPI", "c
             // le rectangle à afficher.
             this.vertexBuffer = GL.createBuffer();
             GL.bindBuffer(GL.ARRAY_BUFFER, this.vertexBuffer);
-            this.vertices = new Float32Array(4 * textureComponent_3.TextureComponent.vertexSize);
+            this.vertices = new Float32Array(4 * textureComponent_4.TextureComponent.vertexSize);
             GL.bufferData(GL.ARRAY_BUFFER, this.vertices, GL.DYNAMIC_DRAW);
             // On crée ici un tableau de 6 indices, soit 2 triangles, pour
             // représenter quels vertices participent à chaque triangle:

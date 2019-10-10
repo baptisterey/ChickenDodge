@@ -1,23 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7d7cba61-2e84-4f9f-829b-9ebe2e131eaf" name="Default Changelist" comment="" />
+    <list default="true" id="7d7cba61-2e84-4f9f-829b-9ebe2e131eaf" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/merged.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/merged.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/merged.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/merged.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layerComponent.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layerComponent.ts" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1R4CB9ph9qUj0g7vYVKvSEhSmCb" />
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../.." />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../portoflio" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.general" />
-    <property name="ts.external.directory.path" value="D:\Code\Pycharm Projects\Exercices2-3\client\node_modules\typescript\lib" />
+    <property name="ts.external.directory.path" value="D:\Code\Pycharm Projects\Exercices2-3\ChickenDodge\node_modules\typescript\lib" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -56,10 +66,27 @@
       <workItem from="1569039155961" duration="1865000" />
       <workItem from="1569165900623" duration="1793000" />
       <workItem from="1569168065699" duration="3356000" />
+      <workItem from="1570375376108" duration="3004000" />
+      <workItem from="1570408421489" duration="860000" />
+      <workItem from="1570501587346" duration="86000" />
+      <workItem from="1570666333496" duration="763000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
