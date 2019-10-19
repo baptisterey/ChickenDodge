@@ -2,17 +2,24 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7d7cba61-2e84-4f9f-829b-9ebe2e131eaf" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/quadTree.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dist/merged.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/merged.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dist/merged.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/merged.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/layerComponent.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layerComponent.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/systems/physicSystem.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/systems/physicSystem.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -69,7 +76,8 @@
       <workItem from="1570375376108" duration="3004000" />
       <workItem from="1570408421489" duration="860000" />
       <workItem from="1570501587346" duration="86000" />
-      <workItem from="1570666333496" duration="763000" />
+      <workItem from="1570666333496" duration="1321000" />
+      <workItem from="1571513752470" duration="4546000" />
     </task>
     <servers />
   </component>

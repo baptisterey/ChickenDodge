@@ -2348,12 +2348,138 @@ define("scene", ["require", "exports", "entity"], function (require, exports, en
     }
     exports.Scene = Scene;
 });
-define("systems/physicSystem", ["require", "exports", "components/colliderComponent", "scene"], function (require, exports, colliderComponent_2, scene_9) {
+define("components/quadTree", ["require", "exports", "components/rectangle"], function (require, exports, rectangle_2) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    const MAX_OBJECTS = 50;
+    const MAX_LEVELS = 5;
+    class QuadTree {
+        constructor(_level, _bounds) {
+            this.level = _level;
+            this.bounds = _bounds;
+            this.nodes = new Array();
+            this.objects = new Array();
+        }
+        clear() {
+            this.objects = [];
+            for (let quadTree of this.nodes) {
+                quadTree.clear();
+            }
+            this.nodes = [];
+        }
+        /**
+         * Divise le node en 4 sous-nodes
+         */
+        split() {
+            let subWidth = (this.bounds.xMax - this.bounds.xMin) / 2;
+            let subHeight = (this.bounds.yMax - this.bounds.yMin) / 2;
+            let subX = this.bounds.xMin;
+            let subY = this.bounds.yMin;
+            // Inférieur gauche
+            this.nodes.push(new QuadTree(this.level + 1, new rectangle_2.Rectangle({
+                x: subX,
+                y: subY,
+                width: subWidth,
+                height: subHeight,
+            })));
+            // Supérieur gauche
+            this.nodes.push(new QuadTree(this.level + 1, new rectangle_2.Rectangle({
+                x: subX,
+                y: subY + subHeight,
+                width: subWidth,
+                height: subHeight,
+            })));
+            // Inférieur droit
+            this.nodes.push(new QuadTree(this.level + 1, new rectangle_2.Rectangle({
+                x: subX + subWidth,
+                y: subY,
+                width: subWidth,
+                height: subHeight,
+            })));
+            // Supérieur droit
+            this.nodes.push(new QuadTree(this.level + 1, new rectangle_2.Rectangle({
+                x: subX + subWidth,
+                y: subY + subHeight,
+                width: subWidth,
+                height: subHeight,
+            })));
+        }
+        getIndex(area) {
+            let width = this.bounds.xMax - this.bounds.xMin;
+            let height = this.bounds.yMax - this.bounds.yMin;
+            let verticalMiddle = this.bounds.xMin + width / 2;
+            let horizontalMiddle = this.bounds.yMin + height / 2;
+            let top = (area.yMin > horizontalMiddle);
+            let bottom = (area.yMax < horizontalMiddle);
+            let left = (area.xMax < verticalMiddle);
+            let right = (area.xMin > verticalMiddle);
+            if (bottom && left) {
+                return 0;
+            }
+            else if (top && left) {
+                return 1;
+            }
+            else if (bottom && right) {
+                return 2;
+            }
+            else if (top && right) {
+                return 3;
+            }
+            return -1;
+        }
+        insert(collider) {
+            if (this.nodes.length > 0) {
+                let index = this.getIndex(collider.area);
+                if (index != -1) {
+                    this.nodes[index].insert(collider);
+                    return;
+                }
+            }
+            this.objects.push(collider);
+            if (this.objects.length > MAX_OBJECTS && this.level < MAX_LEVELS) {
+                if (this.nodes.length == 0) {
+                    this.split();
+                }
+                let i = 0;
+                while (i < this.objects.length) {
+                    let c = this.objects[i];
+                    let index = this.getIndex(c.area);
+                    if (index != -1) {
+                        this.objects.splice(i, 1);
+                        this.nodes[index].insert(c);
+                    }
+                    else {
+                        i++;
+                    }
+                }
+            }
+        }
+        retrieve(area) {
+            let index = this.getIndex(area);
+            let colliders = new Array();
+            if (index != -1 && this.nodes.length != 0) {
+                colliders = this.nodes[index].retrieve(area);
+            }
+            colliders = colliders.concat(this.objects);
+            return colliders;
+        }
+    }
+    exports.QuadTree = QuadTree;
+});
+define("systems/physicSystem", ["require", "exports", "components/colliderComponent", "scene", "components/quadTree", "components/rectangle"], function (require, exports, colliderComponent_2, scene_9, quadTree_1, rectangle_3) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     // # Classe *PhysicSystem*
     // Représente le système permettant de détecter les collisions
     class PhysicSystem {
+        constructor() {
+            this.quadTree = new quadTree_1.QuadTree(0, new rectangle_3.Rectangle({
+                x: 0,
+                y: 0,
+                width: 1500,
+                height: 1500,
+            }));
+        }
         // Méthode *iterate*
         // Appelée à chaque tour de la boucle de jeu
         iterate(dT) {
@@ -2367,6 +2493,8 @@ define("systems/physicSystem", ["require", "exports", "components/colliderCompon
             }
             const collisions = [];
             for (let i = 0; i < colliders.length; i++) {
+                // On clear le quadtree pour ce composant
+                this.quadTree.clear();
                 const c1 = colliders[i];
                 if (!c1.enabled || !c1.owner.active) {
                     continue;
@@ -2376,6 +2504,14 @@ define("systems/physicSystem", ["require", "exports", "components/colliderCompon
                     if (!c2.enabled || !c2.owner.active) {
                         continue;
                     }
+                    if (!(c2.flag & c1.mask)) {
+                        continue;
+                    }
+                    this.quadTree.insert(c2);
+                }
+                // On parcourt tous les éléments qui peuvent potentiellement collide avec c1
+                let possibleColliders = this.quadTree.retrieve(c1.area);
+                for (let c2 of possibleColliders) {
                     if (c1.area.intersectsWith(c2.area)) {
                         collisions.push([c1, c2]);
                     }
