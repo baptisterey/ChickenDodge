@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7d7cba61-2e84-4f9f-829b-9ebe2e131eaf" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/quadTree.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dist/merged.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/merged.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dist/merged.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/merged.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/quadTree.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/quadTree.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/systems/physicSystem.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/systems/physicSystem.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -77,7 +77,8 @@
       <workItem from="1570408421489" duration="860000" />
       <workItem from="1570501587346" duration="86000" />
       <workItem from="1570666333496" duration="1321000" />
-      <workItem from="1571513752470" duration="4546000" />
+      <workItem from="1571513752470" duration="5035000" />
+      <workItem from="1571774474648" duration="3139000" />
     </task>
     <servers />
   </component>

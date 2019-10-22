@@ -2351,7 +2351,7 @@ define("scene", ["require", "exports", "entity"], function (require, exports, en
 define("components/quadTree", ["require", "exports", "components/rectangle"], function (require, exports, rectangle_2) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    const MAX_OBJECTS = 50;
+    const MAX_OBJECTS = 3;
     const MAX_LEVELS = 5;
     class QuadTree {
         constructor(_level, _bounds) {
@@ -2373,33 +2373,33 @@ define("components/quadTree", ["require", "exports", "components/rectangle"], fu
         split() {
             let subWidth = (this.bounds.xMax - this.bounds.xMin) / 2;
             let subHeight = (this.bounds.yMax - this.bounds.yMin) / 2;
-            let subX = this.bounds.xMin;
-            let subY = this.bounds.yMin;
-            // Inférieur gauche
+            let x = this.bounds.xMin;
+            let y = this.bounds.yMin;
+            // En bas à gauche
             this.nodes.push(new QuadTree(this.level + 1, new rectangle_2.Rectangle({
-                x: subX,
-                y: subY,
+                x: x,
+                y: y,
                 width: subWidth,
                 height: subHeight,
             })));
-            // Supérieur gauche
+            // En haut à gauche
             this.nodes.push(new QuadTree(this.level + 1, new rectangle_2.Rectangle({
-                x: subX,
-                y: subY + subHeight,
+                x: x,
+                y: y + subHeight,
                 width: subWidth,
                 height: subHeight,
             })));
-            // Inférieur droit
+            // En bas à droite
             this.nodes.push(new QuadTree(this.level + 1, new rectangle_2.Rectangle({
-                x: subX + subWidth,
-                y: subY,
+                x: x + subWidth,
+                y: y,
                 width: subWidth,
                 height: subHeight,
             })));
-            // Supérieur droit
+            // En haut à droite
             this.nodes.push(new QuadTree(this.level + 1, new rectangle_2.Rectangle({
-                x: subX + subWidth,
-                y: subY + subHeight,
+                x: x + subWidth,
+                y: y + subHeight,
                 width: subWidth,
                 height: subHeight,
             })));
@@ -2476,44 +2476,44 @@ define("systems/physicSystem", ["require", "exports", "components/colliderCompon
             this.quadTree = new quadTree_1.QuadTree(0, new rectangle_3.Rectangle({
                 x: 0,
                 y: 0,
-                width: 1500,
-                height: 1500,
+                width: 850,
+                height: 850,
             }));
         }
         // Méthode *iterate*
         // Appelée à chaque tour de la boucle de jeu
         iterate(dT) {
             const colliders = [];
+            // On récupère tous les colliders actifs avec un owner actif
             for (const e of scene_9.Scene.current.entities()) {
                 for (const comp of e.components) {
-                    if (comp instanceof colliderComponent_2.ColliderComponent && comp.enabled) {
+                    if (comp instanceof colliderComponent_2.ColliderComponent && comp.enabled && comp.owner.active) {
                         colliders.push(comp);
+                        this.quadTree.insert(comp);
                     }
                 }
             }
+            let nbIsIntersect = 0;
             const collisions = [];
+            const collisionsTested = [];
             for (let i = 0; i < colliders.length; i++) {
-                // On clear le quadtree pour ce composant
-                this.quadTree.clear();
                 const c1 = colliders[i];
-                if (!c1.enabled || !c1.owner.active) {
-                    continue;
-                }
-                for (let j = i + 1; j < colliders.length; j++) {
-                    const c2 = colliders[j];
-                    if (!c2.enabled || !c2.owner.active) {
-                        continue;
-                    }
-                    if (!(c2.flag & c1.mask)) {
-                        continue;
-                    }
-                    this.quadTree.insert(c2);
-                }
                 // On parcourt tous les éléments qui peuvent potentiellement collide avec c1
                 let possibleColliders = this.quadTree.retrieve(c1.area);
                 for (let c2 of possibleColliders) {
-                    if (c1.area.intersectsWith(c2.area)) {
-                        collisions.push([c1, c2]);
+                    // Si le flag & le mask ne correspondent pas, on passe
+                    if (!(c2.flag & c1.mask)) {
+                        continue;
+                    }
+                    // On teste seulement si on a pas déjà testé la collision
+                    if (collisionsTested.find(value => {
+                        return value[0] === c2 && value[1] === c1;
+                    }) == null) {
+                        nbIsIntersect++;
+                        collisionsTested.push([c1, c2]);
+                        if (c1.area.intersectsWith(c2.area)) {
+                            collisions.push([c1, c2]);
+                        }
                     }
                 }
             }
@@ -2525,6 +2525,8 @@ define("systems/physicSystem", ["require", "exports", "components/colliderCompon
                     c2.handler.onCollision(c1);
                 }
             }
+            this.quadTree.clear();
+            console.log("isIntersect Calls : " + nbIsIntersect);
         }
     }
     exports.PhysicSystem = PhysicSystem;
